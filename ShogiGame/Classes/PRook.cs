@@ -14,7 +14,7 @@ namespace ShogiGame.Classes
         public PRook() : base()
         {
             State = BigInteger.Parse("0");
-            image = Image.FromFile("C:/nisayon2/ShogiGame/ShogiGame/Resources/Images/Western/9.png");
+            image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/9.png");
         }
 
         public override BigInteger getPlacesToMove(BigInteger from, Board board)

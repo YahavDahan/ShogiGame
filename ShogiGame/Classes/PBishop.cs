@@ -14,7 +14,7 @@ namespace ShogiGame.Classes
         public PBishop() : base()
         {
             State = BigInteger.Parse("0");
-            image = Image.FromFile("C:/nisayon2/ShogiGame/ShogiGame/Resources/Images/Western/10.png");
+            image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/10.png");
         }
 
         public override BigInteger getPlacesToMove(BigInteger from, Board board)

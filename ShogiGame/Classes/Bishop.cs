@@ -13,7 +13,7 @@ namespace ShogiGame.Classes
     {
         public Bishop(BigInteger state) : base(state)
         {
-            image = Image.FromFile("C:/nisayon2/ShogiGame/ShogiGame/Resources/Images/Western/3.png");
+            image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/3.png");
         }
 
         public Bishop() : base() { }

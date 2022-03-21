@@ -155,7 +155,7 @@ namespace ShogiGame.Logic
             if ((GetMoveOptions(location, board) & otherPlayer.piecesLocation[0].State) != 0)  // check
             {
                 otherPlayer.isCheck = true;
-                Image checkImg = Image.FromFile("C:/nisayon2/ShogiGame/ShogiGame/Resources/Images/check.png");
+                Image checkImg = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/check.png");
                 if (otherPlayer.isPlayer1)
                     g.DrawImage(checkImg, 710, 477, 156, 50);
                 else

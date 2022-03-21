@@ -36,7 +36,7 @@ namespace ShogiGame.Classes
 
 			// remove the check warning
 			board.Turn.IsCheck = false;
-			Image coverImg = Image.FromFile("C:/nisayon2/ShogiGame/ShogiGame/Resources/Images/coverImage.png");
+			Image coverImg = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/coverImage.png");
 			if (board.Turn.IsPlayer1)
 				g.DrawImage(coverImg, 710, 477, 156, 50);
 			else

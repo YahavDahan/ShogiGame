@@ -13,7 +13,7 @@ namespace ShogiGame.Classes
     {
         public Knight(BigInteger state) : base(state)
         {
-            image = Image.FromFile("C:/nisayon2/ShogiGame/ShogiGame/Resources/Images/Western/6.png");
+            image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/6.png");
         }
 
         public override BigInteger getPlacesToMove(BigInteger from, Board board)

@@ -13,7 +13,7 @@ namespace ShogiGame.Classes
     {
         public Gold(BigInteger state) : base(state)
         {
-            image = Image.FromFile("C:/nisayon2/ShogiGame/ShogiGame/Resources/Images/Western/4.png");
+            image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/4.png");
         }
 
         public Gold() : base() { }

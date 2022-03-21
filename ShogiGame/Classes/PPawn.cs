@@ -13,7 +13,7 @@ namespace ShogiGame.Classes
         public PPawn() : base()
         {
             State = BigInteger.Parse("0");
-            image = Image.FromFile("C:/nisayon2/ShogiGame/ShogiGame/Resources/Images/Western/14.png");
+            image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/14.png");
         }
     }
 }
