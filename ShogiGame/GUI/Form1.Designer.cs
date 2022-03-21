@@ -35,6 +35,7 @@ namespace ShogiGame.GUI
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.textBox1.Enabled = false;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.textBox1.Location = new System.Drawing.Point(968, 320);
             this.textBox1.Multiline = true;

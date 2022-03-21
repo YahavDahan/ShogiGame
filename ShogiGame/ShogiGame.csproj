@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -74,6 +75,9 @@
     <Compile Include="Logic\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -96,8 +100,26 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Resources\NewFolder1\" />
+    <Content Include="Resources\Images\board.png" />
+    <Content Include="Resources\Images\check.png" />
+    <Content Include="Resources\Images\coverImage.png" />
+    <Content Include="Resources\Images\greenFrame.png" />
+    <Content Include="Resources\Images\Western\1.png" />
+    <Content Include="Resources\Images\Western\10.png" />
+    <Content Include="Resources\Images\Western\11.png" />
+    <Content Include="Resources\Images\Western\12.png" />
+    <Content Include="Resources\Images\Western\13.png" />
+    <Content Include="Resources\Images\Western\14.png" />
+    <Content Include="Resources\Images\Western\2.png" />
+    <Content Include="Resources\Images\Western\3.png" />
+    <Content Include="Resources\Images\Western\4.png" />
+    <Content Include="Resources\Images\Western\5.png" />
+    <Content Include="Resources\Images\Western\6.png" />
+    <Content Include="Resources\Images\Western\7.png" />
+    <Content Include="Resources\Images\Western\8.png" />
+    <Content Include="Resources\Images\Western\9.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
