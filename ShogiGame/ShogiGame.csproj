@@ -46,12 +46,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Classes\Bishop.cs" />
+    <Compile Include="Classes\Gold.cs" />
+    <Compile Include="Classes\King.cs" />
+    <Compile Include="Classes\Knight.cs" />
+    <Compile Include="Classes\Lance.cs" />
+    <Compile Include="Classes\Pawn.cs" />
+    <Compile Include="Classes\PBishop.cs" />
+    <Compile Include="Classes\Piece.cs" />
+    <Compile Include="Classes\PKnight.cs" />
+    <Compile Include="Classes\PLance.cs" />
+    <Compile Include="Classes\PPawn.cs" />
+    <Compile Include="Classes\PRook.cs" />
+    <Compile Include="Classes\PSilver.cs" />
+    <Compile Include="Classes\Rook.cs" />
+    <Compile Include="Classes\Silver.cs" />
+    <Compile Include="Exceptions\GameOverException.cs" />
+    <Compile Include="GUI\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="GUI\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logic\Board.cs" />
+    <Compile Include="Logic\Constants.cs" />
+    <Compile Include="Logic\HandleBitwise.cs" />
+    <Compile Include="Logic\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -75,6 +95,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
