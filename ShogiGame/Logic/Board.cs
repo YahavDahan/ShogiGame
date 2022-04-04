@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShogiGame.Classes;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -20,6 +21,16 @@ namespace ShogiGame.Logic
             this.turn = this.player1;
         }
 
+        public Board(Board boardToCopy)
+        {
+            this.player1 = new Player(boardToCopy.player1);
+            this.player2 = new Player(boardToCopy.player2);
+            if (boardToCopy.turn.IsPlayer1)
+                this.turn = this.player1;
+            else
+                this.turn = this.player2;
+        }
+
         public Player Turn { get => turn; set => turn = value; }
 
         public Player Player1 { get => player1; }
@@ -28,9 +39,123 @@ namespace ShogiGame.Logic
 
         public Player getOtherPlayer()
         {
-            if (turn == player1)
-                return player2;
-            return player1;
+            if (this.turn == this.player1)
+                return this.player2;
+            return this.player1;
+        }
+
+        public BigInteger GetMoveOptions(BigInteger from)
+        {  // 0 אין לאן לזוז
+            if (this.turn.IsCheck)
+            {
+                if ((from & this.turn.PiecesLocation[0].State) != 0)  // המלך נבחר
+                    return this.turn.PiecesLocation[0].getPlacesToMove(this.turn.PiecesLocation[0].State, this);
+                return 0;  // לא ניתן להזיז כלי שהוא לא המלך כשיש שח
+            }
+            for (int i = 0; i < this.turn.PiecesLocation.Length; i++)
+                if ((from & this.turn.PiecesLocation[i].State) != 0)
+                    return this.turn.PiecesLocation[i].getPlacesToMove(from, this);
+            return 0;
+        }
+
+        public bool MovePiece(BigInteger from, BigInteger to)
+        {
+            // הזזת כלי בלוח ובדיקה אם ניתן לקידום או קידום בכוח והחלפת תור. מחזיר אם הכלי ניתן לקידום - צריך לשאול את המשתמש
+            for (int i = 0; i < this.turn.PiecesLocation.Length; i++)
+                if ((from & this.turn.PiecesLocation[i].State) != 0)
+                {
+                    // move the piece
+                    this.turn.PiecesLocation[i].Move(from, to, this);
+                    // 2. בדיקת קידום בכוח אם כן לקדם
+                    if (this.DoesPieceNeedPromotion(i, to))
+                    {
+                        this.turn.PromotePiece(to, i);
+                        break;
+                    }
+                    // 3. אם ן שונה מ0 שונה מ3 קטן שווה ל7 וגם טו נמצא בשורות הקידום
+                    if (this.IsPossibleToPromotePiece(i, to))
+                        return true; // לא הוחלף עדיין תור - צריך לבדור אם השחקן רוצה לבצע קידום
+                    break;
+                }
+            return false;
+        }
+
+        private bool DoesPieceNeedPromotion(int i, BigInteger location)
+        {
+            if (this.turn.IsPlayer1)
+            {
+                if (i >= 1 && i <= 7 && i != 3 && Board.isLocatedInTopRow(location))
+                    return true;
+                if (i == 5 && (location & BigInteger.Parse("2FE00", NumberStyles.HexNumber)) != 0)
+                    return true;
+            }
+            else
+            {
+                if (i >= 1 && i <= 7 && i != 3 && Board.isLocatedInBottomRow(location))
+                    return true;
+                if (i == 5 && (location & BigInteger.Parse("0FF8000000000000000", NumberStyles.HexNumber)) != 0)
+                    return true;
+            }
+            return false;
+        }
+
+        private bool IsPossibleToPromotePiece(int i, BigInteger location)
+        {
+            if (this.turn.IsPlayer1)
+            {
+                if (i >= 1 && i <= 7 && i != 3 && (location & BigInteger.Parse("7FFFFFF", NumberStyles.HexNumber)) != 0)
+                    return true;
+            }
+            else
+            {
+                if (i >= 1 && i <= 7 && i != 3 && (location & BigInteger.Parse("1FFFFFFC0000000000000", NumberStyles.HexNumber)) != 0)
+                    return true;
+            }
+            return false;
+        }
+
+        public bool IsThereCheckOnTheOtherPlayer()
+        { // בדיקה אם שח בהפשעת תזוזת חייל או קידום
+            // בדיקת שח או משחק נגמר במחלקת לוח
+            return (GetAllThePossibleMovesOfAllThePiecesOfTheCurrentPlayer() & getOtherPlayer().PiecesLocation[0].State) != 0;
+        }
+
+        public bool CheckIfGameIsOver()
+        {
+            this.turn = getOtherPlayer();
+            BigInteger kingMovePlacesOfTheOtherPlayer = this.turn.PiecesLocation[0].getPlacesToMove(this.turn.PiecesLocation[0].State, this);
+            this.turn = getOtherPlayer();
+            return kingMovePlacesOfTheOtherPlayer == 0;
+        }
+
+        public BigInteger GetAllThePossibleMovesOfAllThePiecesOfTheCurrentPlayer()
+        {
+            BigInteger moveOptionsOfAllThePieces = King.KingMoveOptions(this.turn.PiecesLocation[0].State, this);
+            for (int i = 1; i < this.turn.PiecesLocation.Length; i++)
+                if (this.turn.PiecesLocation[i].State != 0)
+                {
+                    if (HandleBitwise.IsPowerOfTwo(this.turn.PiecesLocation[i].State))
+                        moveOptionsOfAllThePieces |= this.turn.PiecesLocation[i].getPlacesToMove(this.turn.PiecesLocation[i].State, this);
+                    else
+                    {
+                        BigInteger maskForChecking = BigInteger.Parse("100000000000000000000", NumberStyles.HexNumber);
+                        while (maskForChecking != 0)
+                        {
+                            if ((this.turn.PiecesLocation[i].State & maskForChecking) != 0)
+                                moveOptionsOfAllThePieces |= this.turn.PiecesLocation[i].getPlacesToMove(maskForChecking, this);
+                            maskForChecking >>= 1;
+                        }
+                    }
+                }
+            return moveOptionsOfAllThePieces;
+        }
+
+        public BigInteger GetAllThePossibleMovesOfAllThePiecesOfTheOtherPlayer()
+        { // מקבל את כל האופציות לתזוזה של כל החיילים של היריב
+            this.turn = getOtherPlayer();
+            BigInteger moveOptionsOfAllThePieces = GetAllThePossibleMovesOfAllThePiecesOfTheCurrentPlayer();
+            this.turn = getOtherPlayer();
+            return moveOptionsOfAllThePieces;
         }
 
         public static bool isLocatedInRightColumn(BigInteger locationForChecking)

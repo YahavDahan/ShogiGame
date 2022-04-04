@@ -8,3 +8,5 @@ C:\ShogiGame\ShogiGame\bin\Debug\ShogiGame.exe
 C:\ShogiGame\ShogiGame\bin\Debug\ShogiGame.pdb
 C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.exe
 C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.pdb
+C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.GUI.GameInstructionsForm.resources
+C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.GUI.MainMenu.resources

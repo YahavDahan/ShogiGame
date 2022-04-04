@@ -16,7 +16,7 @@ namespace ShogiGame
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GUI.Form1());
+            Application.Run(new GUI.MainMenu());
         }
     }
 }
