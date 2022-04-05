@@ -98,14 +98,29 @@ namespace ShogiGame.GUI
         /// <param name="currentSquare">the square the user chose on the board. The position is described by using bits</param>
         private void PlayerVSComputerManager(BigInteger currentSquare)
         {
-            // Human Player Turn
-            if (this.board.Turn.IsPlayer1)
-                this.HumanPlayerStep(currentSquare);
+            this.HumanPlayerStep(currentSquare);
+            if (!this.board.Turn.IsPlayer1)
+            {
+                // do computer step
+                if (Computer.DoStep(this.board))
+                    // game over
+                    textBox1.Text = "the player bellow won the game !!";
 
-            // Computer Player Turn
-            else
+                // remove the check warning after the move
+                this.RemoveCurrentPlayerCheckWarning();
+
+                // check if there check on the other player
+                if (this.board.IsThereCheckOnTheOtherPlayer())
+                {
+                    this.AddOtherPlayerCheckWarning();
+                    if (this.board.CheckIfGameIsOver())
+                        textBox1.Text = "the player above won the game !!";
+                }
+
+                // replace turn
                 this.board.Turn = this.board.getOtherPlayer();
-                // Computer.DoStep(this.board);
+                this.PrintBoardState();
+            }
         }
 
         /// <summary>

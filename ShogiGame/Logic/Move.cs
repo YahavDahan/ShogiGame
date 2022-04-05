@@ -13,6 +13,12 @@ namespace ShogiGame.Logic
         private BigInteger to;
         private bool isPromoted;
 
+        public BigInteger From { get => from; set => from = value; }
+
+        public BigInteger To { get => to; set => to = value; }
+
+        public bool IsPromoted { get => isPromoted; set => isPromoted = value; }
+
         public Move(BigInteger from, BigInteger to, bool isPromoted)
         {
             this.from = from;

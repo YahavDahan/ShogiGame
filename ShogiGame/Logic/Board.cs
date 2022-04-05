@@ -80,6 +80,20 @@ namespace ShogiGame.Logic
             return false;
         }
 
+        public void MovePiece(Move move)
+        {
+            for (int i = 0; i < this.turn.PiecesLocation.Length; i++)
+                if ((move.From & this.turn.PiecesLocation[i].State) != 0)
+                {
+                    // move the piece
+                    this.turn.PiecesLocation[i].Move(move.From, move.To, this);
+                    // if the piece should get promotion
+                    if (move.IsPromoted)
+                        this.turn.PromotePiece(move.To, i);
+                    break;
+                }
+        }
+
         private bool DoesPieceNeedPromotion(int i, BigInteger location)
         {
             if (this.turn.IsPlayer1)
@@ -99,7 +113,7 @@ namespace ShogiGame.Logic
             return false;
         }
 
-        private bool IsPossibleToPromotePiece(int i, BigInteger location)
+        public bool IsPossibleToPromotePiece(int i, BigInteger location)
         {
             if (this.turn.IsPlayer1)
             {
