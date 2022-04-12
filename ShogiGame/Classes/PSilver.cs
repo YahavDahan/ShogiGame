@@ -14,12 +14,14 @@ namespace ShogiGame.Classes
         {
             State = BigInteger.Parse("0");
             image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/11.png");
+            pieceScore = 430;
         }
 
         public PSilver(BigInteger state) : base()
         {
             this.state = state;
             image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/11.png");
+            pieceScore = 430;
         }
 
     }

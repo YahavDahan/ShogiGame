@@ -120,6 +120,16 @@ namespace ShogiGame.Logic
                 this.piecesLocation[pieceType + 6].State |= location;
         }
 
+        public void UndoPromotePiece(BigInteger location, int pieceType)
+        {
+            // undo promote piece
+            if (pieceType == 1 || pieceType == 2)  // rook or bishop
+                this.piecesLocation[pieceType + 7].State &= location ^ Constants.BITBOARD_OF_ONE;
+            else
+                this.piecesLocation[pieceType + 6].State &= location ^ Constants.BITBOARD_OF_ONE;
+            this.piecesLocation[pieceType].State |= location;
+        }
+
         public int GetPieceTypeFromLocation(BigInteger location)
         {
             for (int i = 0; i < this.piecesLocation.Length; i++)
@@ -129,14 +139,15 @@ namespace ShogiGame.Logic
 
         }
 
-        public void DeletePieceFromLocation(BigInteger from)
+        public int DeletePieceFromLocation(BigInteger from)
         {
             for (int i = 0; i < this.piecesLocation.Length; i++)
                 if ((from & this.piecesLocation[i].State) != 0)
                 {
                     this.piecesLocation[i].State ^= from;
-                    break;
+                    return i;
                 }
+            return -1;
         }
 
         public BigInteger GetAllPiecesLocations()

@@ -67,13 +67,13 @@ namespace ShogiGame.Logic
                     // move the piece
                     this.turn.PiecesLocation[i].Move(from, to, this);
                     // 2. בדיקת קידום בכוח אם כן לקדם
-                    if (this.DoesPieceNeedPromotion(i, to))
+                    if (DoesPieceNeedPromotion(i, to))
                     {
                         this.turn.PromotePiece(to, i);
                         break;
                     }
                     // 3. אם ן שונה מ0 שונה מ3 קטן שווה ל7 וגם טו נמצא בשורות הקידום
-                    if (this.IsPossibleToPromotePiece(i, to))
+                    if (IsPossibleToPromotePiece(i, to))
                         return true; // לא הוחלף עדיין תור - צריך לבדור אם השחקן רוצה לבצע קידום
                     break;
                 }
@@ -94,7 +94,7 @@ namespace ShogiGame.Logic
                 }
         }
 
-        private bool DoesPieceNeedPromotion(int i, BigInteger location)
+        public bool DoesPieceNeedPromotion(int i, BigInteger location)
         {
             if (this.turn.IsPlayer1)
             {

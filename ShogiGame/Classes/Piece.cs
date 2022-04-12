@@ -14,8 +14,10 @@ namespace ShogiGame.Classes
 	{
 		protected BigInteger state;
 		protected Image image;
+		protected int pieceScore;
+		protected int[] moveScore;
 
-		public Piece(BigInteger state)
+        public Piece(BigInteger state)
 		{
 			this.state = state;
 		}
@@ -24,7 +26,11 @@ namespace ShogiGame.Classes
 
 		public BigInteger State { get => state; set => state = value; }
 
-		public abstract BigInteger getPlacesToMove(BigInteger from, Board board);
+		public int PieceScore { get => pieceScore;}
+
+		public int[] MoveScore { get => moveScore;}
+
+        public abstract BigInteger getPlacesToMove(BigInteger from, Board board);
 
 		public void Move(BigInteger from, BigInteger to, Board board)
 		{

@@ -14,6 +14,19 @@ namespace ShogiGame.Classes
         public Knight(BigInteger state) : base(state)
         {
             image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/6.png");
+            pieceScore = 300;
+            moveScore = new int[Constants.ROWS_NUMBER * Constants.ROWS_NUMBER]
+            {
+                  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                 -5,  0,  5, 20, 10, 20,  5,  0, -5,
+                 -5,  0, 20, 20, 20, 10,  0,  0, -5,
+                 -5, 10, 20, 30,  0, 30, 20, 10, -5,
+                 -5,  0, 20,  0, 20,  0, 20,  0, -5,
+                 -5, 10, 20,  0,  0,  0, 20,  0, -5,
+                  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                  0,-10,  0,  0,  0,  0,  0,-10,  0
+            };
         }
 
         public override BigInteger getPlacesToMove(BigInteger from, Board board)

@@ -106,6 +106,13 @@ namespace ShogiGame.GUI
                     // game over
                     textBox1.Text = "the player bellow won the game !!";
 
+                // check if the other player king was attacked, if so the current player won the game
+                if (this.board.getOtherPlayer().PiecesLocation[0].State == 0)
+                {
+                    textBox1.Text = "the player above won the game !!";
+                    this.isGameOver = true;
+                }
+
                 // remove the check warning after the move
                 this.RemoveCurrentPlayerCheckWarning();
 

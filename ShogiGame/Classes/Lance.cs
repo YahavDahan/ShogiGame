@@ -14,6 +14,19 @@ namespace ShogiGame.Classes
         public Lance(BigInteger state) : base(state)
         {
             image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/7.png");
+            pieceScore = 280;
+            moveScore = new int[Constants.ROWS_NUMBER * Constants.ROWS_NUMBER]
+            {
+                  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                 20,  0,  0,  0,  0,  0,  0,  0, 20,
+                 20,  0,  0,  0,  0,  0,  0,  0, 20,
+                 20,  0,  0,  0,  0,  0,  0,  0, 20,
+                 10,  0,  0,  0,  0,  0,  0,  0, 10,
+                 10,  0,  0,  0,  0,  0,  0,  0, 10,
+                  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                 20,  0,  0,  0,  0,  0,  0,  0, 20
+            };
         }
 
         public override BigInteger getPlacesToMove(BigInteger from, Board board)

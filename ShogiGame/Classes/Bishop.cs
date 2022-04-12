@@ -14,6 +14,19 @@ namespace ShogiGame.Classes
         public Bishop(BigInteger state) : base(state)
         {
             image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/3.png");
+            pieceScore = 620;
+            moveScore = new int[Constants.ROWS_NUMBER * Constants.ROWS_NUMBER]
+            {
+                 10,  0,  0,  0,  0,  0,  0,  0, 10,
+                  0,  0,  0, 20, 20, 30,  0,  0,  0,
+                  0, 20, 10, 20, 20, 20, 10, 20,  0,
+                  0,  0,  0, 20, 20, 20,  0,  0,  0,
+                 20,  0, 10,  0,  0,  0, 10,  0, 20,
+                  0,  0, 10,  0,  0,  0, 10,  0,  0,
+                  0,  0, 10,  0,  0,  0, 10,  0,  0,
+                  0, 20,  0,  0,  0,  0,  0, 20,  0,
+                  0,  0,  0,  0,  0,  0,  0,  0,  0
+            };
         }
 
         public Bishop() : base() { }

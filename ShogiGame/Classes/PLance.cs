@@ -14,12 +14,14 @@ namespace ShogiGame.Classes
         {
             State = BigInteger.Parse("0");
             image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/13.png");
+            pieceScore = 320;
         }
 
         public PLance(BigInteger state) : base()
         {
             this.state = state;
             image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/13.png");
+            pieceScore = 320;
         }
 
     }
