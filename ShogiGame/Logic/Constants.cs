@@ -20,7 +20,9 @@ namespace ShogiGame.Logic
 
         public const int SQUARE_SIZE = 55;
 
-        public static int[] mirrorBitBoard = new int[ROWS_NUMBER * ROWS_NUMBER] {
+        public static BigInteger THE_LAST_LOCATION_ON_THE_BOARD = BigInteger.Parse("100000000000000000000", NumberStyles.HexNumber);
+
+        public static int[] MIRROR_BITBOARD = new int[ROWS_NUMBER * ROWS_NUMBER] {
             80, 79, 78, 77, 76, 75, 74, 73, 72,
             71, 70, 69, 68, 67, 66, 65, 64, 63,
             62, 61, 60, 59, 58, 57, 56, 55, 54,

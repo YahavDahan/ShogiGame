@@ -20,7 +20,7 @@ namespace ShogiGame.Logic
             if (moves.Count == 0)
                 return true;
             // find the best move
-            Move bestMove = getBestMove(moves, board);
+            Move bestMove = GetBestMove(moves, board);
             // do best move
             board.MovePiece(bestMove);
             // the game didnt over
@@ -38,7 +38,7 @@ namespace ShogiGame.Logic
                 // get all other move options
                 for (int i = 1; i < currentPlayer.PiecesLocation.Length; i++)
                 {
-                    BigInteger maskForFindThePieceLocation = BigInteger.Parse("100000000000000000000", NumberStyles.HexNumber);
+                    BigInteger maskForFindThePieceLocation = Constants.THE_LAST_LOCATION_ON_THE_BOARD;
                     while (maskForFindThePieceLocation != 0)
                     {
                         // if there is piece in the current location
@@ -55,7 +55,7 @@ namespace ShogiGame.Logic
         public static void GetMoveListFromPiece(List<Move> possibleMoves, Piece currentPiece, int pieceType, BigInteger pieceLocation, Board board)
         {
             BigInteger pieceMoveOptions = currentPiece.getPlacesToMove(pieceLocation, board);
-            BigInteger maskForFindTheMoveOptionsLocation = BigInteger.Parse("100000000000000000000", NumberStyles.HexNumber);
+            BigInteger maskForFindTheMoveOptionsLocation = Constants.THE_LAST_LOCATION_ON_THE_BOARD;
             while (maskForFindTheMoveOptionsLocation != 0)
             {
                 if ((pieceMoveOptions & maskForFindTheMoveOptionsLocation) != 0)
@@ -77,7 +77,7 @@ namespace ShogiGame.Logic
             }
         }
 
-        public static Move getBestMove(List<Move> moves, Board board)
+        public static Move GetBestMove(List<Move> moves, Board board)
         {
             Move bestMove = null;
             int maxgrade = int.MinValue;
@@ -120,12 +120,12 @@ namespace ShogiGame.Logic
 
         public static int HeuristicFunction(Board board)
         {
-            int scoreComp = EvalPlayer(board.Player2);
-            int scorePlayer = EvalPlayer(board.Player1);
+            int scoreComp = EvalPlayer(board, board.Player2);
+            int scorePlayer = EvalPlayer(board, board.Player1);
             return board.Turn.IsPlayer1 ? scorePlayer - scoreComp : scoreComp - scorePlayer;
         }
 
-        private static int EvalPlayer(Player player)
+        private static int EvalPlayer(Board board, Player player)
         {
             int totalScore = 0;
             foreach (Piece piece in player.PiecesLocation)
@@ -139,11 +139,37 @@ namespace ShogiGame.Logic
                     if (player.IsPlayer1)
                         totalScore += piece.MoveScore[square];
                     else
-                        totalScore += piece.MoveScore[Constants.mirrorBitBoard[square]];
+                        totalScore += piece.MoveScore[Constants.MIRROR_BITBOARD[square]];
 
                     bitboard = HandleBitwise.PopFirst1Bit(bitboard);
                 }
             }
+
+            if (player.IsPlayer1)
+            {
+                if (board.IsThereCheckOnPlayer2())
+                {
+                    totalScore += 40;
+                    Player saveTurn = board.Turn;
+                    board.Turn = board.Player2;
+                    if (board.Player2.PiecesLocation[0].getPlacesToMove(board.Player2.PiecesLocation[0].State, board) == 0)
+                        totalScore += 999999;
+                    board.Turn = saveTurn;
+                }
+            }
+            else
+            {
+                if (board.IsThereCheckOnPlayer1())
+                {
+                    totalScore += 40;
+                    Player saveTurn = board.Turn;
+                    board.Turn = board.Player1;
+                    if (board.Player1.PiecesLocation[0].getPlacesToMove(board.Player1.PiecesLocation[0].State, board) == 0)
+                        totalScore += 999999;
+                    board.Turn = saveTurn;
+                }
+            }
+
             return totalScore;
         }
     }

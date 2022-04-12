@@ -17,7 +17,7 @@ namespace ShogiGame.Classes
             pieceScore = 100;
             moveScore = new int[Constants.ROWS_NUMBER * Constants.ROWS_NUMBER]
             {
-                  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                 30, 30, 40, 40, 40, 40, 40, 30, 30,
                  20, 30, 30, 30, 40, 30, 30, 30, 20,
                  20, 20, 10, 20, 30, 20, 10, 20, 20,
                  10, 10, 10, 10, 20, 10, 10, 10, 10,

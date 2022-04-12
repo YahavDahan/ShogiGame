@@ -129,9 +129,22 @@ namespace ShogiGame.Logic
         }
 
         public bool IsThereCheckOnTheOtherPlayer()
-        { // בדיקה אם שח בהפשעת תזוזת חייל או קידום
-            // בדיקת שח או משחק נגמר במחלקת לוח
+        {
             return (GetAllThePossibleMovesOfAllThePiecesOfTheCurrentPlayer() & getOtherPlayer().PiecesLocation[0].State) != 0;
+        }
+
+        public bool IsThereCheckOnPlayer1()
+        {
+            if (turn.IsPlayer1)
+                return (GetAllThePossibleMovesOfAllThePiecesOfTheOtherPlayer() & player1.PiecesLocation[0].State) != 0;
+            return (GetAllThePossibleMovesOfAllThePiecesOfTheCurrentPlayer() & player1.PiecesLocation[0].State) != 0;
+        }
+
+        public bool IsThereCheckOnPlayer2()
+        {
+            if (turn.IsPlayer1)
+                return (GetAllThePossibleMovesOfAllThePiecesOfTheCurrentPlayer() & player2.PiecesLocation[0].State) != 0;
+            return (GetAllThePossibleMovesOfAllThePiecesOfTheOtherPlayer() & player2.PiecesLocation[0].State) != 0;
         }
 
         public bool CheckIfGameIsOver()
@@ -152,7 +165,7 @@ namespace ShogiGame.Logic
                         moveOptionsOfAllThePieces |= this.turn.PiecesLocation[i].getPlacesToMove(this.turn.PiecesLocation[i].State, this);
                     else
                     {
-                        BigInteger maskForChecking = BigInteger.Parse("100000000000000000000", NumberStyles.HexNumber);
+                        BigInteger maskForChecking = Constants.THE_LAST_LOCATION_ON_THE_BOARD;
                         while (maskForChecking != 0)
                         {
                             if ((this.turn.PiecesLocation[i].State & maskForChecking) != 0)
