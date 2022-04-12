@@ -14,6 +14,19 @@ namespace ShogiGame.Classes
         public Rook(BigInteger state) : base(state)
         {
             image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/2.png");
+            pieceScore = 700;
+            moveScore = new int[Constants.ROWS_NUMBER * Constants.ROWS_NUMBER]
+            {
+                 50, 50, 50, 50, 50, 50, 50, 50, 50,
+                 50, 40, 50, 40, 50, 40, 50, 40, 50,
+                  0,  0, 10, 20, 30, 20, 10,  0,  0,
+                  0,  0, 10, 20, 30, 20, 10,  0,  0,
+                  0,  0, 10, 10, 20, 10, 10,  0,  0,
+                  0,  0, 10, 20, 30, 20, 10, 20,  0,
+                  0,  0, 10, 20, 10, 20, 10,  0,  0,
+                  0,  5,  5, 20, 30, 20,  5,  5,  0,
+                  0,  0,  0, 20, 30, 20,  0,  0,  0
+            };
         }
 
         public Rook() : base() { }

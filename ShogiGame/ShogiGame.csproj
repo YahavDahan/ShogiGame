@@ -69,14 +69,34 @@
     <Compile Include="GUI\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\GameInstructionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\GameInstructionsForm.Designer.cs">
+      <DependentUpon>GameInstructionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\MainMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\MainMenu.Designer.cs">
+      <DependentUpon>MainMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Logic\Board.cs" />
+    <Compile Include="Logic\Computer.cs" />
     <Compile Include="Logic\Constants.cs" />
     <Compile Include="Logic\HandleBitwise.cs" />
+    <Compile Include="Logic\Move.cs" />
     <Compile Include="Logic\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GameInstructionsForm.resx">
+      <DependentUpon>GameInstructionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\MainMenu.resx">
+      <DependentUpon>MainMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -86,6 +106,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -106,6 +127,7 @@
     <Content Include="Resources\Images\check.png" />
     <Content Include="Resources\Images\coverImage.png" />
     <Content Include="Resources\Images\greenFrame.png" />
+    <Content Include="Resources\Images\ShogiBackground.jpg" />
     <Content Include="Resources\Images\Western\1.png" />
     <Content Include="Resources\Images\Western\10.png" />
     <Content Include="Resources\Images\Western\11.png" />

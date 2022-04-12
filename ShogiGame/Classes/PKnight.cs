@@ -14,6 +14,15 @@ namespace ShogiGame.Classes
         {
             State = BigInteger.Parse("0");
             image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/12.png");
+            pieceScore = 250;
         }
+
+        public PKnight(BigInteger state) : base()
+        {
+            this.state = state;
+            image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/12.png");
+            pieceScore = 250;
+        }
+
     }
 }

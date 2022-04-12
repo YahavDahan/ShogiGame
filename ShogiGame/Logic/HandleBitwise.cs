@@ -52,5 +52,19 @@ namespace ShogiGame.Logic
             int col = Constants.BOARD_START_WIDTH + squareNum % Constants.ROWS_NUMBER * Constants.SQUARE_SIZE;
             return new Point(col, row);
         }
+
+        public static int GetFirst1BitLocation(BigInteger bitboard)
+        {
+            if (bitboard == 0)
+                return -1;
+            return CreateNumberFromMask(bitboard ^ PopFirst1Bit(bitboard));
+        }
+
+        public static BigInteger PopFirst1Bit(BigInteger bitboard)
+        {
+            if (bitboard == 0)
+                return -1;
+            return bitboard & (bitboard - 1);
+        }
     }
 }

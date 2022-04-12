@@ -34,7 +34,8 @@ namespace ShogiGame.GUI
             // 
             // textBox1
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.textBox1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Enabled = false;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.textBox1.Location = new System.Drawing.Point(968, 320);
@@ -48,6 +49,7 @@ namespace ShogiGame.GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClientSize = new System.Drawing.Size(1197, 861);
             this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
