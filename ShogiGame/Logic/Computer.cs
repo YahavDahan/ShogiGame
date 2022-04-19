@@ -12,6 +12,8 @@ namespace ShogiGame.Logic
 {
     public static class Computer
     {
+        static int count;
+        const int DEPTH = 2;
         public static bool DoStep(Board board)
         {
             // get all the possible moves
@@ -33,7 +35,7 @@ namespace ShogiGame.Logic
             Player currentPlayer = board.Turn;
             // get king move options
             GetMoveListFromPiece(possibleMoves, currentPlayer.PiecesLocation[0], 0, currentPlayer.PiecesLocation[0].State, board);
-            if (!board.Turn.IsCheck)
+            if (!currentPlayer.IsCheck)
             {
                 // get all other move options
                 for (int i = 1; i < currentPlayer.PiecesLocation.Length; i++)
@@ -62,15 +64,15 @@ namespace ShogiGame.Logic
                 {
                     // check if we must promote the current piece in this location
                     if (board.DoesPieceNeedPromotion(pieceType, maskForFindTheMoveOptionsLocation))
-                        possibleMoves.Add(new Move(pieceType, pieceLocation, maskForFindTheMoveOptionsLocation, true));
+                        possibleMoves.Add(new Move(pieceType, pieceLocation, maskForFindTheMoveOptionsLocation, true, board.Turn.IsCheck));
                     else
                     {
                         // Add the move to the move list
-                        possibleMoves.Add(new Move(pieceType, pieceLocation, maskForFindTheMoveOptionsLocation, false));
+                        possibleMoves.Add(new Move(pieceType, pieceLocation, maskForFindTheMoveOptionsLocation, false, board.Turn.IsCheck));
 
                         // check if possible to promote the current piece in this location
                         if (board.IsPossibleToPromotePiece(pieceType, maskForFindTheMoveOptionsLocation))
-                            possibleMoves.Add(new Move(pieceType, pieceLocation, maskForFindTheMoveOptionsLocation, true));
+                            possibleMoves.Add(new Move(pieceType, pieceLocation, maskForFindTheMoveOptionsLocation, true, board.Turn.IsCheck));
                     }
                 }
                 maskForFindTheMoveOptionsLocation >>= 1;
@@ -83,8 +85,9 @@ namespace ShogiGame.Logic
             int maxgrade = int.MinValue;
             foreach (Move move in moves)
             {
+                count++;
                 DoVirtualMove(move, board);
-                int grade = HeuristicFunction(board);
+                int grade = NegaAlphaBeta(board, DEPTH-1, maxgrade, int.MaxValue);
                 if (grade > maxgrade)
                 {
                     maxgrade = grade;
@@ -93,6 +96,27 @@ namespace ShogiGame.Logic
                 UndoVirtualMove(move, board);
             }
             return bestMove;
+        }
+
+        private static int NegaAlphaBeta(Board board, int depth, int alpha, int beta)
+        {
+            count++;
+            if (depth == 0 )//|| board.isEnded())
+                return HeuristicFunction(board);
+            board.Turn = board.getOtherPlayer();
+            List<Move> moves = GetAllPossibleMoves(board);
+            int best = int.MinValue;
+            foreach (Move move in moves)
+            {
+                DoVirtualMove(move, board);
+                best = Math.Max(best, 0 - NegaAlphaBeta(board, depth - 1, -beta, -alpha));
+                alpha = Math.Max(best, alpha);
+                UndoVirtualMove(move, board);
+                if (alpha >= beta)
+                    break;
+            }
+            board.Turn = board.getOtherPlayer();
+            return best;
         }
 
         public static void DoVirtualMove(Move move, Board board)
@@ -105,6 +129,10 @@ namespace ShogiGame.Logic
             Player otherPlayer = board.getOtherPlayer();
             if ((otherPlayer.GetAllPiecesLocations() & move.To) != 0)
                 move.AttackedPieceType = otherPlayer.DeletePieceFromLocation(move.To);
+            move.HasBeenCheckBeforeTheMove = board.Turn.IsCheck;
+            board.Turn.IsCheck = false;
+            move.DidTheMoveCauseCheckOnTheOtherPlayer = otherPlayer.IsCheck;
+            otherPlayer.IsCheck = board.IsThereCheckOnTheOtherPlayer();
         }
         
         public static void UndoVirtualMove(Move move, Board board)
@@ -114,8 +142,11 @@ namespace ShogiGame.Logic
                 board.Turn.UndoPromotePiece(move.To, move.PieceType);
             board.Turn.PiecesLocation[move.PieceType].State ^= move.To;
             board.Turn.PiecesLocation[move.PieceType].State ^= move.From;
+            Player otherPlayer = board.getOtherPlayer();
             if (move.AttackedPieceType != -1)
-                board.getOtherPlayer().PiecesLocation[move.AttackedPieceType].State ^= move.To;
+                otherPlayer.PiecesLocation[move.AttackedPieceType].State ^= move.To;
+            board.Turn.IsCheck = move.HasBeenCheckBeforeTheMove;
+            otherPlayer.IsCheck = move.DidTheMoveCauseCheckOnTheOtherPlayer;
         }
 
         public static int HeuristicFunction(Board board)

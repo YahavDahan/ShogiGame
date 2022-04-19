@@ -1,5 +1,4 @@
 C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.csproj.AssemblyReference.cache
-C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.GUI.Form1.resources
 C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.Properties.Resources.resources
 C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.csproj.GenerateResource.cache
 C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.csproj.CoreCompileInputs.cache
@@ -10,3 +9,4 @@ C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.exe
 C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.pdb
 C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.GUI.GameInstructionsForm.resources
 C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.GUI.MainMenu.resources
+C:\ShogiGame\ShogiGame\obj\Debug\ShogiGame.GUI.GameForm.resources

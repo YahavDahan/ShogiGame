@@ -13,6 +13,7 @@ namespace ShogiGame.Classes
     {
         public King(BigInteger state) : base(state)
         {
+            // image = Properties.Resources._1;
             image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/1.png");
             pieceScore = 10000;
             moveScore = new int[Constants.ROWS_NUMBER * Constants.ROWS_NUMBER]

@@ -39,9 +39,7 @@ namespace ShogiGame.Logic
 
         public Player getOtherPlayer()
         {
-            if (this.turn == this.player1)
-                return this.player2;
-            return this.player1;
+            return this.turn == this.player1 ? this.player2 : this.player1;
         }
 
         public BigInteger GetMoveOptions(BigInteger from)

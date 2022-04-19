@@ -14,6 +14,8 @@ namespace ShogiGame.Logic
         private BigInteger to;
         private bool isPromoted;
         private int attackedPieceType;
+        private bool hasBeenCheckBeforeTheMove;
+        private bool didTheMoveCauseCheckOnTheOtherPlayer;
 
         public int PieceType { get => pieceType; set => pieceType = value; }
 
@@ -25,13 +27,19 @@ namespace ShogiGame.Logic
 
         public int AttackedPieceType { get => attackedPieceType; set => attackedPieceType = value; }
 
-        public Move(int pieceType, BigInteger from, BigInteger to, bool isPromoted)
+        public bool HasBeenCheckBeforeTheMove { get => hasBeenCheckBeforeTheMove; set => hasBeenCheckBeforeTheMove = value; }
+
+        public bool DidTheMoveCauseCheckOnTheOtherPlayer { get => didTheMoveCauseCheckOnTheOtherPlayer; set => didTheMoveCauseCheckOnTheOtherPlayer = value; }
+
+        public Move(int pieceType, BigInteger from, BigInteger to, bool isPromoted, bool hasCheck)
         {
             this.pieceType = pieceType;
             this.from = from;
             this.to = to;
             this.isPromoted = isPromoted;
-            this.attackedPieceType = -1;
+            this.attackedPieceType = -1;  // has to check (temporary value)
+            this.hasBeenCheckBeforeTheMove = hasCheck;
+            this.hasBeenCheckBeforeTheMove = false;  // have to check (temporary value)
         }
     }
 }
