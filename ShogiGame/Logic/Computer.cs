@@ -12,21 +12,31 @@ namespace ShogiGame.Logic
 {
     public static class Computer
     {
-        static int count;
-        const int DEPTH = 2;
+        const int DEPTH = 3;
         public static bool DoStep(Board board)
         {
+            // ----- NegaAlphaBeta -----
             // get all the possible moves
             List<Move> moves = GetAllPossibleMoves(board);
             // if there is no possible moves
             if (moves.Count == 0)
                 return true;
             // find the best move
-            Move bestMove = GetBestMove(moves, board);
+            Move bestMove = GetBestMove(moves, board, DEPTH);
             // do best move
             board.MovePiece(bestMove);
             // the game didnt over
             return false;
+
+            //// MiniMax without AlphaBeta
+            //Move bestMove = Minimax(board, DEPTH);
+            //board.MovePiece(bestMove);
+            //return false;
+
+            ////////// NegaAlphaBeta
+            ////////Move bestMove = GetBestMove(board, DEPTH);
+            ////////board.MovePiece(bestMove);
+            ////////return false;
         }
 
         public static List<Move> GetAllPossibleMoves(Board board)
@@ -79,15 +89,32 @@ namespace ShogiGame.Logic
             }
         }
 
-        public static Move GetBestMove(List<Move> moves, Board board)
+        //public static Move GetBestMove(List<Move> moves, Board board)
+        //{
+        //    Move bestMove = null;
+        //    int maxgrade = int.MinValue;
+        //    foreach (Move move in moves)
+        //    {
+        //        DoVirtualMove(move, board);
+        //        int grade = HeuristicFunction(board);
+        //        if (grade > maxgrade)
+        //        {
+        //            maxgrade = grade;
+        //            bestMove = move;
+        //        }
+        //        UndoVirtualMove(move, board);
+        //    }
+        //    return bestMove;
+        //}
+
+        public static Move GetBestMove(List<Move> moves, Board board, int depth)
         {
             Move bestMove = null;
             int maxgrade = int.MinValue;
             foreach (Move move in moves)
             {
-                count++;
                 DoVirtualMove(move, board);
-                int grade = NegaAlphaBeta(board, DEPTH-1, maxgrade, int.MaxValue);
+                int grade = NegaAlphaBeta(board, depth-1, maxgrade, int.MaxValue);
                 if (grade > maxgrade)
                 {
                     maxgrade = grade;
@@ -98,10 +125,45 @@ namespace ShogiGame.Logic
             return bestMove;
         }
 
+        //public static Move GetBestMove(Board board, int depth)
+        //{
+        //    Move bestMove = null;
+        //    board.Turn = board.getOtherPlayer();
+        //    NegaAlphaBeta(board, depth, int.MinValue, int.MaxValue, ref bestMove);
+        //    board.Turn = board.getOtherPlayer();
+        //    return bestMove;
+        //}
+
+        //private static int NegaAlphaBeta(Board board, int depth, int alpha, int beta, ref Move bestMove)
+        //{
+        //    if (depth == 0 || board.CheckIfGameIsOver())
+        //        return HeuristicFunction(board);
+        //    board.Turn = board.getOtherPlayer();
+        //    List<Move> moves = GetAllPossibleMoves(board);
+        //    int best = int.MinValue;
+        //    foreach (Move move in moves)
+        //    {
+        //        DoVirtualMove(move, board);
+        //        int value = 0 - NegaAlphaBeta(board, depth - 1, -beta, -alpha);
+        //        if (value > best)
+        //        {
+        //            best = value;
+        //            bestMove = move;
+        //        }
+        //        alpha = Math.Max(best, alpha);
+        //        UndoVirtualMove(move, board);
+        //        if (alpha != best)
+        //            break;
+        //        if (alpha >= beta)
+        //            break;
+        //    }
+        //    board.Turn = board.getOtherPlayer();
+        //    return best;
+        //}
+
         private static int NegaAlphaBeta(Board board, int depth, int alpha, int beta)
         {
-            count++;
-            if (depth == 0 )//|| board.isEnded())
+            if (depth == 0 || board.CheckIfGameIsOver())
                 return HeuristicFunction(board);
             board.Turn = board.getOtherPlayer();
             List<Move> moves = GetAllPossibleMoves(board);
@@ -112,8 +174,60 @@ namespace ShogiGame.Logic
                 best = Math.Max(best, 0 - NegaAlphaBeta(board, depth - 1, -beta, -alpha));
                 alpha = Math.Max(best, alpha);
                 UndoVirtualMove(move, board);
+                if (alpha != best)
+                    break;
                 if (alpha >= beta)
                     break;
+            }
+            board.Turn = board.getOtherPlayer();
+            return best;
+        }
+
+        public static Move Minimax(Board board, int depth)
+        {
+            Move bestMove = null;
+            board.Turn = board.getOtherPlayer();
+            MaxLevel(board, depth, ref bestMove);
+            board.Turn = board.getOtherPlayer();
+            return bestMove;
+        }
+
+        public static int MaxLevel(Board board, int depth, ref Move bestMove)
+        {
+            if (depth == 0 || board.CheckIfGameIsOver())
+                return HeuristicFunction(board);
+            board.Turn = board.getOtherPlayer();
+            List<Move> moves = GetAllPossibleMoves(board);
+            int best = int.MinValue;
+            foreach (Move move in moves)
+            {
+                DoVirtualMove(move, board);
+                int value = MinLevel(board, depth - 1, bestMove);
+                if (value > best)
+                {
+                    best = value;
+                    bestMove = move;
+                }
+                UndoVirtualMove(move, board);
+            }
+            board.Turn = board.getOtherPlayer();
+            return best;
+        }
+
+        public static int MinLevel(Board board, int depth, Move bestMove)
+        {
+            if (depth == 0 || board.CheckIfGameIsOver())
+                return HeuristicFunction(board);
+            board.Turn = board.getOtherPlayer();
+            List<Move> moves = GetAllPossibleMoves(board);
+            int best = int.MaxValue;
+            foreach (Move move in moves)
+            {
+                DoVirtualMove(move, board);
+                int value = MaxLevel(board, depth - 1, ref bestMove);
+                if (value < best)
+                    best = value;
+                UndoVirtualMove(move, board);
             }
             board.Turn = board.getOtherPlayer();
             return best;
