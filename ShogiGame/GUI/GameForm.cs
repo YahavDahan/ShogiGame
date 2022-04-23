@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace ShogiGame.GUI
 {
-    public partial class Form1 : Form
+    public partial class GameForm : Form
     {
         /// <summary>
         /// the game board with the pieces location of every player
@@ -50,9 +50,10 @@ namespace ShogiGame.GUI
         /// Constractor for the form. Initializes the object properties, creates the game board and the graphics.
         /// </summary>
         /// <param name="doesTheGameOneVSOne">Indicates whether the game is one-VS-one or not (True if YES, False if NOT)</param>
-        public Form1(bool doesTheGameOneVSOne)
+        public GameForm(bool doesTheGameOneVSOne)
         {
             InitializeComponent();
+            //this.DoubleBuffered = true;
             this.isGameOver = false;
             this.doesTheGameOneVSOne = doesTheGameOneVSOne;
             this.backgroundImage = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/board.png");

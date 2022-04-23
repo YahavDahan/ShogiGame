@@ -12,19 +12,31 @@ namespace ShogiGame.Logic
 {
     public static class Computer
     {
+        const int DEPTH = 3;
         public static bool DoStep(Board board)
         {
+            // ----- NegaAlphaBeta -----
             // get all the possible moves
             List<Move> moves = GetAllPossibleMoves(board);
             // if there is no possible moves
             if (moves.Count == 0)
                 return true;
             // find the best move
-            Move bestMove = GetBestMove(moves, board);
+            Move bestMove = GetBestMove(moves, board, DEPTH);
             // do best move
             board.MovePiece(bestMove);
             // the game didnt over
             return false;
+
+            //// MiniMax without AlphaBeta
+            //Move bestMove = Minimax(board, DEPTH);
+            //board.MovePiece(bestMove);
+            //return false;
+
+            ////////// NegaAlphaBeta
+            ////////Move bestMove = GetBestMove(board, DEPTH);
+            ////////board.MovePiece(bestMove);
+            ////////return false;
         }
 
         public static List<Move> GetAllPossibleMoves(Board board)
@@ -33,7 +45,7 @@ namespace ShogiGame.Logic
             Player currentPlayer = board.Turn;
             // get king move options
             GetMoveListFromPiece(possibleMoves, currentPlayer.PiecesLocation[0], 0, currentPlayer.PiecesLocation[0].State, board);
-            if (!board.Turn.IsCheck)
+            if (!currentPlayer.IsCheck)
             {
                 // get all other move options
                 for (int i = 1; i < currentPlayer.PiecesLocation.Length; i++)
@@ -62,29 +74,47 @@ namespace ShogiGame.Logic
                 {
                     // check if we must promote the current piece in this location
                     if (board.DoesPieceNeedPromotion(pieceType, maskForFindTheMoveOptionsLocation))
-                        possibleMoves.Add(new Move(pieceType, pieceLocation, maskForFindTheMoveOptionsLocation, true));
+                        possibleMoves.Add(new Move(pieceType, pieceLocation, maskForFindTheMoveOptionsLocation, true, board.Turn.IsCheck));
                     else
                     {
                         // Add the move to the move list
-                        possibleMoves.Add(new Move(pieceType, pieceLocation, maskForFindTheMoveOptionsLocation, false));
+                        possibleMoves.Add(new Move(pieceType, pieceLocation, maskForFindTheMoveOptionsLocation, false, board.Turn.IsCheck));
 
                         // check if possible to promote the current piece in this location
                         if (board.IsPossibleToPromotePiece(pieceType, maskForFindTheMoveOptionsLocation))
-                            possibleMoves.Add(new Move(pieceType, pieceLocation, maskForFindTheMoveOptionsLocation, true));
+                            possibleMoves.Add(new Move(pieceType, pieceLocation, maskForFindTheMoveOptionsLocation, true, board.Turn.IsCheck));
                     }
                 }
                 maskForFindTheMoveOptionsLocation >>= 1;
             }
         }
 
-        public static Move GetBestMove(List<Move> moves, Board board)
+        //public static Move GetBestMove(List<Move> moves, Board board)
+        //{
+        //    Move bestMove = null;
+        //    int maxgrade = int.MinValue;
+        //    foreach (Move move in moves)
+        //    {
+        //        DoVirtualMove(move, board);
+        //        int grade = HeuristicFunction(board);
+        //        if (grade > maxgrade)
+        //        {
+        //            maxgrade = grade;
+        //            bestMove = move;
+        //        }
+        //        UndoVirtualMove(move, board);
+        //    }
+        //    return bestMove;
+        //}
+
+        public static Move GetBestMove(List<Move> moves, Board board, int depth)
         {
             Move bestMove = null;
             int maxgrade = int.MinValue;
             foreach (Move move in moves)
             {
                 DoVirtualMove(move, board);
-                int grade = HeuristicFunction(board);
+                int grade = NegaAlphaBeta(board, depth-1, maxgrade, int.MaxValue);
                 if (grade > maxgrade)
                 {
                     maxgrade = grade;
@@ -93,6 +123,114 @@ namespace ShogiGame.Logic
                 UndoVirtualMove(move, board);
             }
             return bestMove;
+        }
+
+        //public static Move GetBestMove(Board board, int depth)
+        //{
+        //    Move bestMove = null;
+        //    board.Turn = board.getOtherPlayer();
+        //    NegaAlphaBeta(board, depth, int.MinValue, int.MaxValue, ref bestMove);
+        //    board.Turn = board.getOtherPlayer();
+        //    return bestMove;
+        //}
+
+        //private static int NegaAlphaBeta(Board board, int depth, int alpha, int beta, ref Move bestMove)
+        //{
+        //    if (depth == 0 || board.CheckIfGameIsOver())
+        //        return HeuristicFunction(board);
+        //    board.Turn = board.getOtherPlayer();
+        //    List<Move> moves = GetAllPossibleMoves(board);
+        //    int best = int.MinValue;
+        //    foreach (Move move in moves)
+        //    {
+        //        DoVirtualMove(move, board);
+        //        int value = 0 - NegaAlphaBeta(board, depth - 1, -beta, -alpha);
+        //        if (value > best)
+        //        {
+        //            best = value;
+        //            bestMove = move;
+        //        }
+        //        alpha = Math.Max(best, alpha);
+        //        UndoVirtualMove(move, board);
+        //        if (alpha != best)
+        //            break;
+        //        if (alpha >= beta)
+        //            break;
+        //    }
+        //    board.Turn = board.getOtherPlayer();
+        //    return best;
+        //}
+
+        private static int NegaAlphaBeta(Board board, int depth, int alpha, int beta)
+        {
+            if (depth == 0 || board.CheckIfGameIsOver())
+                return HeuristicFunction(board);
+            board.Turn = board.getOtherPlayer();
+            List<Move> moves = GetAllPossibleMoves(board);
+            int best = int.MinValue;
+            foreach (Move move in moves)
+            {
+                DoVirtualMove(move, board);
+                best = Math.Max(best, 0 - NegaAlphaBeta(board, depth - 1, -beta, -alpha));
+                alpha = Math.Max(best, alpha);
+                UndoVirtualMove(move, board);
+                if (alpha != best)
+                    break;
+                if (alpha >= beta)
+                    break;
+            }
+            board.Turn = board.getOtherPlayer();
+            return best;
+        }
+
+        public static Move Minimax(Board board, int depth)
+        {
+            Move bestMove = null;
+            board.Turn = board.getOtherPlayer();
+            MaxLevel(board, depth, ref bestMove);
+            board.Turn = board.getOtherPlayer();
+            return bestMove;
+        }
+
+        public static int MaxLevel(Board board, int depth, ref Move bestMove)
+        {
+            if (depth == 0 || board.CheckIfGameIsOver())
+                return HeuristicFunction(board);
+            board.Turn = board.getOtherPlayer();
+            List<Move> moves = GetAllPossibleMoves(board);
+            int best = int.MinValue;
+            foreach (Move move in moves)
+            {
+                DoVirtualMove(move, board);
+                int value = MinLevel(board, depth - 1, bestMove);
+                if (value > best)
+                {
+                    best = value;
+                    bestMove = move;
+                }
+                UndoVirtualMove(move, board);
+            }
+            board.Turn = board.getOtherPlayer();
+            return best;
+        }
+
+        public static int MinLevel(Board board, int depth, Move bestMove)
+        {
+            if (depth == 0 || board.CheckIfGameIsOver())
+                return HeuristicFunction(board);
+            board.Turn = board.getOtherPlayer();
+            List<Move> moves = GetAllPossibleMoves(board);
+            int best = int.MaxValue;
+            foreach (Move move in moves)
+            {
+                DoVirtualMove(move, board);
+                int value = MaxLevel(board, depth - 1, ref bestMove);
+                if (value < best)
+                    best = value;
+                UndoVirtualMove(move, board);
+            }
+            board.Turn = board.getOtherPlayer();
+            return best;
         }
 
         public static void DoVirtualMove(Move move, Board board)
@@ -105,6 +243,10 @@ namespace ShogiGame.Logic
             Player otherPlayer = board.getOtherPlayer();
             if ((otherPlayer.GetAllPiecesLocations() & move.To) != 0)
                 move.AttackedPieceType = otherPlayer.DeletePieceFromLocation(move.To);
+            move.HasBeenCheckBeforeTheMove = board.Turn.IsCheck;
+            board.Turn.IsCheck = false;
+            move.DidTheMoveCauseCheckOnTheOtherPlayer = otherPlayer.IsCheck;
+            otherPlayer.IsCheck = board.IsThereCheckOnTheOtherPlayer();
         }
         
         public static void UndoVirtualMove(Move move, Board board)
@@ -114,8 +256,11 @@ namespace ShogiGame.Logic
                 board.Turn.UndoPromotePiece(move.To, move.PieceType);
             board.Turn.PiecesLocation[move.PieceType].State ^= move.To;
             board.Turn.PiecesLocation[move.PieceType].State ^= move.From;
+            Player otherPlayer = board.getOtherPlayer();
             if (move.AttackedPieceType != -1)
-                board.getOtherPlayer().PiecesLocation[move.AttackedPieceType].State ^= move.To;
+                otherPlayer.PiecesLocation[move.AttackedPieceType].State ^= move.To;
+            board.Turn.IsCheck = move.HasBeenCheckBeforeTheMove;
+            otherPlayer.IsCheck = move.DidTheMoveCauseCheckOnTheOtherPlayer;
         }
 
         public static int HeuristicFunction(Board board)

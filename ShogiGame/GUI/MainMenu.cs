@@ -25,7 +25,7 @@ namespace ShogiGame.GUI
             if (!this.isGameAlreadyStarted)
             {
                 this.isGameAlreadyStarted = true;
-                Form1 f1 = new Form1(true); // Instantiate the game as one V one.
+                GameForm f1 = new GameForm(true); // Instantiate the game as one V one.
                 f1.Show(); // Show Form1
             }
         }
@@ -35,7 +35,7 @@ namespace ShogiGame.GUI
             if (!this.isGameAlreadyStarted)
             {
                 this.isGameAlreadyStarted = true;
-                Form1 f1 = new Form1(false); // Instantiate the game as player against computer.
+                GameForm f1 = new GameForm(false); // Instantiate the game as player against computer.
                 f1.Show(); // Show Form1
             }
         }
