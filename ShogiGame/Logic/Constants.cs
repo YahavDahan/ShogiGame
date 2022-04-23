@@ -10,18 +10,39 @@ namespace ShogiGame.Logic
 {
     public static class Constants
     {
+        /// <summary>
+        /// the number of squares in a raw
+        /// </summary>
         public const int ROWS_NUMBER = 9;
 
+        /// <summary>
+        /// bit board of 1 - there are 81 squares in the board so the variable contains 81 one's bits
+        /// </summary>
         public static BigInteger BITBOARD_OF_ONE = BigInteger.Parse("1FFFFFFFFFFFFFFFFFFFF", NumberStyles.HexNumber);
 
+        /// <summary>
+        /// the location the board starts on the Y-axis in pixels
+        /// </summary>
         public const int BOARD_START_HEIGHT = 94;
 
+        /// <summary>
+        /// the location the board starts on the X-axis in pixels
+        /// </summary>
         public const int BOARD_START_WIDTH = 164;
 
+        /// <summary>
+        /// the length of one square in the board in pixels
+        /// </summary>
         public const int SQUARE_SIZE = 55;
 
+        /// <summary>
+        /// the last location on the board - only bit 81 is on
+        /// </summary>
         public static BigInteger THE_LAST_LOCATION_ON_THE_BOARD = BigInteger.Parse("100000000000000000000", NumberStyles.HexNumber);
 
+        /// <summary>
+        /// mirror bitboard to get the same location on the opponent side
+        /// </summary>
         public static int[] MIRROR_BITBOARD = new int[ROWS_NUMBER * ROWS_NUMBER] {
             80, 79, 78, 77, 76, 75, 74, 73, 72,
             71, 70, 69, 68, 67, 66, 65, 64, 63,

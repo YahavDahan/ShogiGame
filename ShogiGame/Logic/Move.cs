@@ -10,10 +10,10 @@ namespace ShogiGame.Logic
     public class Move
     {
         private int pieceType;  // before the promotion
-        private BigInteger from;
-        private BigInteger to;
-        private bool isPromoted;
-        private int attackedPieceType;
+        private BigInteger from;  // from location
+        private BigInteger to;  // to location
+        private bool isPromoted;  // is the move include promotion
+        private int attackedPieceType;  // if the other player's piece get attacked, save his type
         private bool hasBeenCheckBeforeTheMove;
         private bool didTheMoveCauseCheckOnTheOtherPlayer;
 
@@ -31,6 +31,14 @@ namespace ShogiGame.Logic
 
         public bool DidTheMoveCauseCheckOnTheOtherPlayer { get => didTheMoveCauseCheckOnTheOtherPlayer; set => didTheMoveCauseCheckOnTheOtherPlayer = value; }
 
+        /// <summary>
+        /// the function creates move object
+        /// </summary>
+        /// <param name="pieceType">the type of the piece to move before the promotion</param>
+        /// <param name="from">from location</param>
+        /// <param name="to">to location</param>
+        /// <param name="isPromoted">is the move include promotion</param>
+        /// <param name="hasCheck">is the player has check warning</param>
         public Move(int pieceType, BigInteger from, BigInteger to, bool isPromoted, bool hasCheck)
         {
             this.pieceType = pieceType;

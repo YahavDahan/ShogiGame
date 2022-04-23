@@ -13,6 +13,12 @@ namespace ShogiGame.Logic
     public static class Computer
     {
         const int DEPTH = 3;
+
+        /// <summary>
+        /// the function do one computer step using AI
+        /// </summary>
+        /// <param name="board">the game board</param>
+        /// <returns>if the computer player cannot move any piece</returns>
         public static bool DoStep(Board board)
         {
             // ----- NegaAlphaBeta -----
@@ -39,6 +45,11 @@ namespace ShogiGame.Logic
             ////////return false;
         }
 
+        /// <summary>
+        /// the function finds all the possible moves of the current turn on the board
+        /// </summary>
+        /// <param name="board">the game board</param>
+        /// <returns>list of all the possible moves to do</returns>
         public static List<Move> GetAllPossibleMoves(Board board)
         {
             List<Move> possibleMoves = new List<Move>();
@@ -64,6 +75,14 @@ namespace ShogiGame.Logic
             return possibleMoves;
         }
 
+        /// <summary>
+        /// the function creates move objects for one piece on the board and save them in the move list
+        /// </summary>
+        /// <param name="possibleMoves">list of all the the possible moves</param>
+        /// <param name="currentPiece">the piece we want to check its moves</param>
+        /// <param name="pieceType">the type of the piece we want to check</param>
+        /// <param name="pieceLocation">the location of the piece on the boars in bitboard format</param>
+        /// <param name="board">the game board</param>
         public static void GetMoveListFromPiece(List<Move> possibleMoves, Piece currentPiece, int pieceType, BigInteger pieceLocation, Board board)
         {
             BigInteger pieceMoveOptions = currentPiece.getPlacesToMove(pieceLocation, board);
@@ -107,6 +126,13 @@ namespace ShogiGame.Logic
         //    return bestMove;
         //}
 
+        /// <summary>
+        /// the function check the best move the computer player can do
+        /// </summary>
+        /// <param name="moves">list of the possible moves the computer player can perform</param>
+        /// <param name="board">the game board</param>
+        /// <param name="depth">the death we want to check if the game tree (for the AI)</param>
+        /// <returns>the best move the computer player can do</returns>
         public static Move GetBestMove(List<Move> moves, Board board, int depth)
         {
             Move bestMove = null;
@@ -161,6 +187,14 @@ namespace ShogiGame.Logic
         //    return best;
         //}
 
+        /// <summary>
+        /// the function implements the Nega Alpha Beta algorithm in given depth to get the best move option
+        /// </summary>
+        /// <param name="board">the game board</param>
+        /// <param name="depth">the death we want to check if the game tree</param>
+        /// <param name="alpha">Upper bound for the best move of the current player</param>
+        /// <param name="beta">Upper bound for the best move of the other player</param>
+        /// <returns></returns>
         private static int NegaAlphaBeta(Board board, int depth, int alpha, int beta)
         {
             if (depth == 0 || board.CheckIfGameIsOver())
@@ -233,9 +267,13 @@ namespace ShogiGame.Logic
             return best;
         }
 
+        /// <summary>
+        /// the function perform one move on the game board
+        /// </summary>
+        /// <param name="move">the move to perform</param>
+        /// <param name="board">the game board</param>
         public static void DoVirtualMove(Move move, Board board)
         {
-            // do move
             board.Turn.PiecesLocation[move.PieceType].State ^= move.From;
             board.Turn.PiecesLocation[move.PieceType].State ^= move.To;
             if (move.IsPromoted)
@@ -248,10 +286,14 @@ namespace ShogiGame.Logic
             move.DidTheMoveCauseCheckOnTheOtherPlayer = otherPlayer.IsCheck;
             otherPlayer.IsCheck = board.IsThereCheckOnTheOtherPlayer();
         }
-        
+
+        /// <summary>
+        /// the function perform undo one move on the game board
+        /// </summary>
+        /// <param name="move">the move we want to undo</param>
+        /// <param name="board">the game board</param>
         public static void UndoVirtualMove(Move move, Board board)
         {
-            // undo move
             if (move.IsPromoted)
                 board.Turn.UndoPromotePiece(move.To, move.PieceType);
             board.Turn.PiecesLocation[move.PieceType].State ^= move.To;
@@ -263,6 +305,11 @@ namespace ShogiGame.Logic
             otherPlayer.IsCheck = move.DidTheMoveCauseCheckOnTheOtherPlayer;
         }
 
+        /// <summary>
+        /// the function calculate score for the current player's pieces state
+        /// </summary>
+        /// <param name="board">the game board</param>
+        /// <returns>the score of the current player's pieces state</returns>
         public static int HeuristicFunction(Board board)
         {
             int scoreComp = EvalPlayer(board, board.Player2);
@@ -270,6 +317,12 @@ namespace ShogiGame.Logic
             return board.Turn.IsPlayer1 ? scorePlayer - scoreComp : scoreComp - scorePlayer;
         }
 
+        /// <summary>
+        /// the function calculate score of the piece state for the player given as parameter
+        /// </summary>
+        /// <param name="board">the game board</param>
+        /// <param name="player">the player we want to get his score</param>
+        /// <returns>the score of the player pieces state</returns>
         private static int EvalPlayer(Board board, Player player)
         {
             int totalScore = 0;

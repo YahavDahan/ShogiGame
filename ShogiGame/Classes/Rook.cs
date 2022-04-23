@@ -11,9 +11,14 @@ namespace ShogiGame.Classes
 {
     public class Rook : Piece
     {
+        /// <summary>
+        /// constructor for the piece type. initializes the Piece's features
+        /// </summary>
+        /// <param name="state">the state of the piece</param>
         public Rook(BigInteger state) : base(state)
         {
-            image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/2.png");
+            image = Properties.Resources._2;
+            // image = Image.FromFile("C:/ShogiGame/ShogiGame/Resources/Images/Western/2.png");
             pieceScore = 700;
             moveScore = new int[Constants.ROWS_NUMBER * Constants.ROWS_NUMBER]
             {
@@ -29,8 +34,17 @@ namespace ShogiGame.Classes
             };
         }
 
+        /// <summary>
+        /// empty constructor
+        /// </summary>
         public Rook() : base() { }
 
+        /// <summary>
+		/// the functions finds all the possible moves of the current piece from specific location
+		/// </summary>
+		/// <param name="from">The location we want to get the move options from</param>
+		/// <param name="board">the game board</param>
+		/// <returns>the possible moves in BitBoard format</returns>
         public override BigInteger getPlacesToMove(BigInteger from, Board board)
         {
             BigInteger allThePiecesLocationOfTheCurrentPlayer = board.Turn.GetAllPiecesLocations();

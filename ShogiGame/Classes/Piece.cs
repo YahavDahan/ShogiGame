@@ -17,21 +17,49 @@ namespace ShogiGame.Classes
 		protected int pieceScore;
 		protected int[] moveScore;
 
-        public Piece(BigInteger state)
+		/// <summary>
+		/// constructor for piece, initializes the initial state of the pieces
+		/// </summary>
+		/// <param name="state">the state of the pieces</param>
+		public Piece(BigInteger state)
 		{
 			this.state = state;
 		}
 
+		/// <summary>
+		/// empty constructor
+		/// </summary>
 		public Piece() { }
 
+		/// <summary>
+		/// the state of all the pieces from the same type in BitBoard format
+		/// </summary>
 		public BigInteger State { get => state; set => state = value; }
 
+		/// <summary>
+		/// the score of the piece
+		/// </summary>
 		public int PieceScore { get => pieceScore;}
 
+		/// <summary>
+		/// The strategic locations of the piece
+		/// </summary>
 		public int[] MoveScore { get => moveScore;}
 
-        public abstract BigInteger getPlacesToMove(BigInteger from, Board board);
+		/// <summary>
+		/// the functions finds all the possible moves of the current piece from specific location
+		/// </summary>
+		/// <param name="from">The location we want to get the move options from</param>
+		/// <param name="board">the game board</param>
+		/// <returns>the possible moves in BitBoard format</returns>
+		public abstract BigInteger getPlacesToMove(BigInteger from, Board board);
 
+		/// <summary>
+		/// the function perform move of piece on the board
+		/// </summary>
+		/// <param name="from">from location</param>
+		/// <param name="to">to location</param>
+		/// <param name="board">the game board</param>
 		public void Move(BigInteger from, BigInteger to, Board board)
 		{
 			this.state ^= from;
@@ -41,6 +69,11 @@ namespace ShogiGame.Classes
 				otherPlayer.DeletePieceFromLocation(to);
 		}
 
+		/// <summary>
+		/// the function prints all the pieces from the same type on the board
+		/// </summary>
+		/// <param name="g">graphics object</param>
+		/// <param name="isPlayer1">Indicates if the player is the down player</param>
 		public void PrintPiece(Graphics g, bool isPlayer1)
 		{
 			if (this.state != 0)
@@ -58,6 +91,13 @@ namespace ShogiGame.Classes
 			}
 		}
 
+		/// <summary>
+		/// the function print one piece in specific location on the board
+		/// </summary>
+		/// <param name="g">graphics object</param>
+		/// <param name="currentImage">image to print (the image of the piece)</param>
+		/// <param name="mask">location on the board to print the piece</param>
+		/// <param name="isPlayer1">Indicates if the player is the down player</param>
 		public void PrintPieceInSpecificLocation(Graphics g, Image currentImage, BigInteger mask, bool isPlayer1)
 		{
 			Point location = HandleBitwise.GetLocationFromMask(mask);

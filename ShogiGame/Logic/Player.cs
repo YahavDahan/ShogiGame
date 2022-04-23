@@ -16,6 +16,10 @@ namespace ShogiGame.Logic
         private bool isPlayer1;
         private bool isCheck;
 
+        /// <summary>
+        /// constructor for the player, initializes the initial locations of the pieces in the board.
+        /// </summary>
+        /// <param name="isPlayer1">Indicates if the player is the down player</param>
         public Player(bool isPlayer1)
         {
             this.isPlayer1 = isPlayer1;
@@ -73,6 +77,10 @@ namespace ShogiGame.Logic
             this.piecesLocation[13] = new PPawn();
         }
 
+        /// <summary>
+        /// copy constructor for the player
+        /// </summary>
+        /// <param name="playerToCopy">player to copy</param>
         public Player(Player playerToCopy)
         {
             this.isPlayer1 = playerToCopy.isPlayer1;
@@ -94,18 +102,37 @@ namespace ShogiGame.Logic
             this.piecesLocation[13] = new PPawn(playerToCopy.piecesLocation[13].State);  // Promoted Pawns
         }
 
+        /// <summary>
+        /// array of the pieces locations of the player
+        /// </summary>
         public Piece[] PiecesLocation { get => piecesLocation; }
 
+        /// <summary>
+        /// Indicates if the player is the down player
+        /// </summary>
         public bool IsPlayer1 { get => isPlayer1; set => isPlayer1 = value; }
 
+        /// <summary>
+        /// Indicates if there is check on the player
+        /// </summary>
         public bool IsCheck { get => isCheck; set => isCheck = value; }
 
+        /// <summary>
+        /// the function check if there is own piece on the square obtained as a parameter
+        /// </summary>
+        /// <param name="square">square for checking</param>
+        /// <returns>if there is own piece on the square</returns>
         public bool IsOwnPieceSelected(BigInteger square)
         {
             BigInteger bitBoardOfPiecesLocations = GetAllPiecesLocations();
             return (bitBoardOfPiecesLocations & square) != 0;
         }
 
+        /// <summary>
+        /// the function performs promotion for one piece
+        /// </summary>
+        /// <param name="location">the location of the piece to promote</param>
+        /// <param name="pieceType">the type of the piece to promote</param>
         public void PromotePiece(BigInteger location, int pieceType)
         {
             // Get piece type from location
@@ -120,6 +147,11 @@ namespace ShogiGame.Logic
                 this.piecesLocation[pieceType + 6].State |= location;
         }
 
+        /// <summary>
+        /// the function performs undo promotion for one piece
+        /// </summary>
+        /// <param name="location">the location of the piece to perform undo promotion</param>
+        /// <param name="pieceType">the type of the piece to perform undo promotion</param>
         public void UndoPromotePiece(BigInteger location, int pieceType)
         {
             // undo promote piece
@@ -130,6 +162,11 @@ namespace ShogiGame.Logic
             this.piecesLocation[pieceType].State |= location;
         }
 
+        /// <summary>
+        /// the function finds the piece type of a piece in location that obtained as a parameter
+        /// </summary>
+        /// <param name="location">the location we want to check</param>
+        /// <returns>the piece type in the location</returns>
         public int GetPieceTypeFromLocation(BigInteger location)
         {
             for (int i = 0; i < this.piecesLocation.Length; i++)
@@ -139,6 +176,11 @@ namespace ShogiGame.Logic
 
         }
 
+        /// <summary>
+        /// the function delete piece from location obtained as a parameter
+        /// </summary>
+        /// <param name="from">the location we want to remove the piece from</param>
+        /// <returns>the type of the piece that removed</returns>
         public int DeletePieceFromLocation(BigInteger from)
         {
             for (int i = 0; i < this.piecesLocation.Length; i++)
@@ -150,6 +192,10 @@ namespace ShogiGame.Logic
             return -1;
         }
 
+        /// <summary>
+        /// the function finds all the pieces locations of the player
+        /// </summary>
+        /// <returns>all the pieces location in BitBoard format</returns>
         public BigInteger GetAllPiecesLocations()
         {
             BigInteger result = BigInteger.Parse("0");
