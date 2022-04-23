@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ShogiGame.Classes.Piece">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAABAAIAAAAAAAAAAAgAEEAIAACAEAAAABAAAAAQ=</HashCode>
+      <FileName>Classes\Piece.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.Bishop">
+    <Position X="4.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Classes\Bishop.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.Gold">
+    <Position X="9.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Classes\Gold.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.King">
+    <Position X="9.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Classes\King.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.Knight">
+    <Position X="4.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Classes\Knight.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.Lance">
+    <Position X="7" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Classes\Lance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.Pawn">
+    <Position X="4.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Classes\Pawn.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.Rook">
+    <Position X="12" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Classes\Rook.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.Silver">
+    <Position X="7" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Classes\Silver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.PBishop">
+    <Position X="4.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Classes\PBishop.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.PRook">
+    <Position X="12" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Classes\PRook.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.PKnight">
+    <Position X="9.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\PKnight.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.PLance">
+    <Position X="12" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\PLance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.PPawn">
+    <Position X="9.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\PPawn.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Classes.PSilver">
+    <Position X="12" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\PSilver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Exceptions.GameOverException">
+    <Position X="14.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\GameOverException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.GUI.GameForm">
+    <Position X="14.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AYABAIEkAGAAAAABAACAAACCCAAEAAAoMAAAAAAgAAA=</HashCode>
+      <FileName>GUI\GameForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.GUI.GameInstructionsForm">
+    <Position X="17" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAABAAAACAAAACAAAIAAAAEAAEAAAAAAA=</HashCode>
+      <FileName>GUI\GameInstructionsForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.GUI.MainMenu">
+    <Position X="17" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAASAAABACAACAAAACAAA4AAAAAAAAAAAECAA=</HashCode>
+      <FileName>GUI\MainMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Logic.Board">
+    <Position X="4.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>wABEAAAgABAAAAIA4hECCAgAAAAAAAAAAAACAAAIAQA=</HashCode>
+      <FileName>Logic\Board.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Logic.Computer">
+    <Position X="9.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAQAAAARGAAACAAIAAgAAAAAAAAAAAAABAIAAEA=</HashCode>
+      <FileName>Logic\Computer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Logic.Constants">
+    <Position X="17" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAEAAAQAAAAAAAAQAAAgABAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Logic\Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Logic.HandleBitwise">
+    <Position X="14.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAQAAAAAAAEAAAAAAAAAAAgQAAAgAAFAAAAAAAA=</HashCode>
+      <FileName>Logic\HandleBitwise.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Logic.Player">
+    <Position X="7" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQgAAAAABgAAAAQAAAAAAAQAAAAFAAAAAAAACAAAQgg=</HashCode>
+      <FileName>Logic\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Logic.Move">
+    <Position X="12" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAIESAAABAAAAAAAAAgAAAAIABAAAABQBAAgAAQ=</HashCode>
+      <FileName>Logic\Move.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShogiGame.Program">
+    <Position X="17" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
