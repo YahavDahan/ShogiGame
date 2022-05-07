@@ -82,11 +82,13 @@
       <DependentUpon>MainMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="Logic\Board.cs" />
+    <Compile Include="Logic\CachedData.cs" />
     <Compile Include="Logic\Computer.cs" />
     <Compile Include="Logic\Constants.cs" />
     <Compile Include="Logic\HandleBitwise.cs" />
     <Compile Include="Logic\Move.cs" />
     <Compile Include="Logic\Player.cs" />
+    <Compile Include="Logic\ZobristHashing.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\GameForm.resx">

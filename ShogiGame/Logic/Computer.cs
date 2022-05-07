@@ -7,12 +7,14 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static ShogiGame.Logic.CachedData;
 
 namespace ShogiGame.Logic
 {
     public static class Computer
     {
-        const int DEPTH = 3;
+        const int DEPTH = 4;
+        private static Dictionary<int, CachedData> transpositionTable = new Dictionary<int, CachedData>();
 
         /// <summary>
         /// the function do one computer step using AI
@@ -44,6 +46,8 @@ namespace ShogiGame.Logic
             ////////board.MovePiece(bestMove);
             ////////return false;
         }
+
+        #region =========  GET LIST OF ALL THE POSSIBLE MOVES =========
 
         /// <summary>
         /// the function finds all the possible moves of the current turn on the board
@@ -108,6 +112,10 @@ namespace ShogiGame.Logic
             }
         }
 
+        #endregion
+
+        #region =========  GET THE BEST MOVE =========
+
         //public static Move GetBestMove(List<Move> moves, Board board)
         //{
         //    Move bestMove = null;
@@ -140,7 +148,8 @@ namespace ShogiGame.Logic
             foreach (Move move in moves)
             {
                 DoVirtualMove(move, board);
-                int grade = NegaAlphaBeta(board, depth-1, maxgrade, int.MaxValue);
+                // int grade = NegaAlphaBeta(board, depth-1, maxgrade, int.MaxValue);
+                int grade = AlphaBetaTT(board, depth - 1, maxgrade, int.MaxValue);
                 if (grade > maxgrade)
                 {
                     maxgrade = grade;
@@ -187,6 +196,67 @@ namespace ShogiGame.Logic
         //    return best;
         //}
 
+        #endregion
+
+        #region =========  TRANSPOSITION TABLE =========
+
+        public static int AlphaBetaTT(Board board, int depth, int alpha, int beta)
+        {
+            int value;
+            bool check = transpositionTable.TryGetValue(ZobristHashing.GetHashKeyForBoard(board), out CachedData tte);
+            if (check && tte.Depth >= depth)
+            {
+                if (tte.Type == TheType.EXACT_VALUE) // stored value is exact
+                    return tte.Score;
+                if (tte.Type == TheType.LOWERBOUND && tte.Score > alpha)
+                    alpha = tte.Score; // update lowerbound alpha if needed
+                else if (tte.Type == TheType.UPPERBOUND && tte.Score < beta)
+                    beta = tte.Score; // update upperbound beta if needed
+                if (alpha >= beta)
+                    return tte.Score; // if lowerbound surpasses upperbound
+            }
+
+            if (depth == 0 || board.CheckIfGameIsOver())
+            {
+                value = HeuristicFunction(board);
+                if (value <= alpha) // a lowerbound value
+                    transpositionTable.TryAdd(ZobristHashing.GetHashKeyForBoard(board), new CachedData(depth, value, TheType.LOWERBOUND));
+                else if (value >= beta) // an upperbound value
+                    transpositionTable.TryAdd(ZobristHashing.GetHashKeyForBoard(board), new CachedData(depth, value, TheType.UPPERBOUND));
+                else // a true minimax value
+                    transpositionTable.TryAdd(ZobristHashing.GetHashKeyForBoard(board), new CachedData(depth, value, TheType.EXACT_VALUE));
+                return value;
+            }
+
+            board.Turn = board.getOtherPlayer();
+            List<Move> moves = GetAllPossibleMoves(board);
+            int best = int.MinValue;
+            foreach (Move move in moves)
+            {
+                DoVirtualMove(move, board);
+                best = Math.Max(best, 0 - AlphaBetaTT(board, depth - 1, -beta, -alpha));
+                alpha = Math.Max(best, alpha);
+                UndoVirtualMove(move, board);
+                if (alpha != best)
+                    break;
+                if (alpha >= beta)
+                    break;
+            }
+            board.Turn = board.getOtherPlayer();
+
+            if (best <= alpha) // a lowerbound value
+                transpositionTable.TryAdd(ZobristHashing.GetHashKeyForBoard(board), new CachedData(depth, best, TheType.LOWERBOUND));
+            else if (best >= beta) // an upperbound value
+                transpositionTable.TryAdd(ZobristHashing.GetHashKeyForBoard(board), new CachedData(depth, best, TheType.UPPERBOUND));
+            else // a true minimax value
+                transpositionTable.TryAdd(ZobristHashing.GetHashKeyForBoard(board), new CachedData(depth, best, TheType.EXACT_VALUE));
+            return best;
+        }
+
+        #endregion
+
+        #region =========  NEGAMAX ALPHA BETA TREE =========
+
         /// <summary>
         /// the function implements the Nega Alpha Beta algorithm in given depth to get the best move option
         /// </summary>
@@ -208,14 +278,16 @@ namespace ShogiGame.Logic
                 best = Math.Max(best, 0 - NegaAlphaBeta(board, depth - 1, -beta, -alpha));
                 alpha = Math.Max(best, alpha);
                 UndoVirtualMove(move, board);
-                if (alpha != best)
-                    break;
                 if (alpha >= beta)
                     break;
             }
             board.Turn = board.getOtherPlayer();
             return best;
         }
+
+        #endregion
+
+        #region =========  MINIMAX TREE =========
 
         public static Move Minimax(Board board, int depth)
         {
@@ -267,6 +339,10 @@ namespace ShogiGame.Logic
             return best;
         }
 
+        #endregion
+
+        #region =========  VIRTUAL MOVES =========
+
         /// <summary>
         /// the function perform one move on the game board
         /// </summary>
@@ -304,6 +380,10 @@ namespace ShogiGame.Logic
             board.Turn.IsCheck = move.HasBeenCheckBeforeTheMove;
             otherPlayer.IsCheck = move.DidTheMoveCauseCheckOnTheOtherPlayer;
         }
+
+        #endregion
+
+        #region =========  HEURISTIC FUNCTION AND EVALUATION =========
 
         /// <summary>
         /// the function calculate score for the current player's pieces state
@@ -369,6 +449,21 @@ namespace ShogiGame.Logic
             }
 
             return totalScore;
+        }
+
+        #endregion
+
+        // expand to the dictionary class
+        public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        {
+            if (dictionary == null)
+                throw new ArgumentNullException(nameof(dictionary));
+            if (!dictionary.ContainsKey(key))
+            {
+                dictionary.Add(key, value);
+                return true;
+            }
+            return false;
         }
     }
 }

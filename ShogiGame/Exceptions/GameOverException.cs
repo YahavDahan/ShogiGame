@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShogiGame.Exceptions
 {
-    class GameOverException : Exception
+    public class GameOverException : Exception
     {
         /// <summary>
         /// constructor for the exception with a message
